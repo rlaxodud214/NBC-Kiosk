@@ -1,17 +1,36 @@
 package com.example.kiosk.view
 
-import com.example.kiosk.util.MainCategory
+import com.example.kiosk.util.BurgersMenu
+import com.example.kiosk.util.MainMenu
+import com.example.kiosk.util.SubMenu
+import java.lang.StringBuilder
 
 class OutputView {
-    fun displayMainCategory() {
+    fun printMainMenuList(array: Array<MainMenu>) {
         println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.\n")
         println("[ SHAKESHACK MENU ]")
 
-        MainCategory.values().forEach {
+        array.forEach {
             it.run {
-                val nameWithSpace = name.replace('_', ' ').padEnd(14, ' ')
-                println(String.format("${ordinal + 1}. $nameWithSpace  |  $description"))
+                val nameWithSpace = itemName.padEnd(14, ' ')
+                println("$menuNumber. $nameWithSpace  |  $description")
             }
         }
+    }
+
+    fun printSubMenuList(seletedNumber: Int) {
+        println("\n[ Burgers MENU ]")
+
+        val sb = StringBuilder()
+
+        when(seletedNumber) {
+            1 -> BurgersMenu.values().forEach { sb.append(it) }
+            2 -> {}
+            3 -> {}
+            4 -> {}
+            else -> {}
+        }
+
+        println(sb.toString())
     }
 }
