@@ -1,4 +1,4 @@
-package com.example.kiosk.util
+package com.example.kiosk.model.menu
 
 enum class BurgersMenu(
     override val menuNumber: Int,
@@ -12,18 +12,4 @@ enum class BurgersMenu(
     CHEESE_BURGER(4, "Cheeseburger", 6.9, "포테이토 번과 비프패티, 치즈가 토핑된 치즈버거"),
     HAM_BURGER(5, "Hamburger", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거"),
     BACK(0, "뒤로가기", 0.0, "뒤로가기");
-
-    override fun toString(): String {
-        return displayInfo()
-    }
-
-    override fun displayInfo(): String {
-        val nameWithSpace = menuName.padEnd(14, ' ')
-
-        return if (price != 0.0) {
-            "$menuNumber. $nameWithSpace  |  $price$  |  $description"
-        } else {
-            "$menuNumber. $nameWithSpace  |  $description"
-        } + "\n"
-    }
 }

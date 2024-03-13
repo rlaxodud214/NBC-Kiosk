@@ -1,8 +1,6 @@
-package com.example.kiosk.util
+package com.example.kiosk.model.menu
 
 interface SubMenu {
-    fun displayInfo(): String
-
     val menuNumber: Int
     val menuName: String
     val price: Double

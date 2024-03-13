@@ -1,8 +1,8 @@
-package com.example.kiosk.util
+package com.example.kiosk.model.menu
 
 enum class MainMenu(
     val menuNumber: Int,
-    val itemName: String,
+    val menuName: String,
     val description: String
 ) {
     BURGERS(1, "Burgers", "앵거스 비프 통살을 다져 만든 버거"),
@@ -10,14 +10,4 @@ enum class MainMenu(
     DRINKS(3, "Drinks", "매장에서 직접 만드는 음료"),
     BEER(4, "Beer", "뉴욕 브루클린 브루어리에서 양조한 맥주"),
     EXIT(0, "종료", "프로그램 종료");
-
-    override fun toString(): String {
-        return displayInfo()
-    }
-
-    private fun displayInfo(): String {
-        val nameWithSpace = itemName.padEnd(14, ' ')
-
-        return "$menuNumber. $nameWithSpace  |  $description" + "\n"
-    }
 }

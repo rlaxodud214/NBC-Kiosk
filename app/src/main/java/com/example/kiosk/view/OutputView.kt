@@ -1,7 +1,7 @@
 package com.example.kiosk.view
 
-import com.example.kiosk.util.BurgersMenu
-import com.example.kiosk.util.MainMenu
+import com.example.kiosk.model.menu.BurgersMenu
+import com.example.kiosk.model.menu.MainMenu
 
 class OutputView {
     // 기존의 value 파라미터는 사용자마다 다르게 보여주어야 하는 데이터가 아니므로 제거함
@@ -11,7 +11,7 @@ class OutputView {
 
         MainMenu.values().forEach {
             it.run {
-                val nameWithSpace = itemName.padEnd(14, ' ')
+                val nameWithSpace = menuName.padEnd(14, ' ')
                 println("$menuNumber. $nameWithSpace  |  $description")
             }
         }
@@ -20,20 +20,29 @@ class OutputView {
     fun printSubMenuList(seletedNumber: Int) {
         println("\n[ Burgers MENU ]")
 
-        val sb = StringBuilder()
-
         // TODO: 다른 subMenu도 채워주기(예시 없음 [자유])
         when (seletedNumber) {
             1 -> BurgersMenu.values().forEach {
-                sb.append(it.displayInfo())
+                printSubMenu(it)
             }
-
             2 -> {}
             3 -> {}
             4 -> {}
             else -> {}
         }
+    }
 
-        println(sb.toString())
+    private fun printSubMenu(burgersMenu: BurgersMenu) {
+        burgersMenu.run {
+            val nameWithSpace = menuName.padEnd(14, ' ')
+
+            val subMenuInfo = if (price != 0.0) {
+                "$menuNumber. $nameWithSpace  |  $price$  |  $description"
+            } else {
+                "$menuNumber. $nameWithSpace  |  $description"
+            }
+
+            println(subMenuInfo)
+        }
     }
 }
