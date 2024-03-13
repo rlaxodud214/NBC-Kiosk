@@ -1,11 +1,11 @@
 package com.example.kiosk.menu
 
 open class MainMenu(
-    open val number: Int,
-    open val name: String,
-    open val description: String,
-) {
-    open fun displayInfo(): String {
+    override val number: Int,
+    override val name: String,
+    override val description: String,
+) : Food(number, name, description) {
+    override fun displayInfo(): String {
         val nameWithSpace = name.padEnd(14, ' ')
 
         return "$number. $nameWithSpace  |  $description"
