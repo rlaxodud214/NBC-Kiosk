@@ -1,15 +1,14 @@
 package com.example.kiosk.view
 
 class InputView {
-    fun inputMainMenu(): Int {
-        print("메뉴를 입력해주세요 : ")
+    fun inputMenuNumber(type: String): Int {
+        print("$type 메뉴를 선택해주세요 : ")
+        val inputNumber = readLine()!!.toIntOrNull()
 
-        val inputMenu = readLine()!!.toIntOrNull() ?: Int.MAX_VALUE
+        return inputNumber ?: throw NumberFormatException(ERROR_TEXT)
+    }
 
-        inputMenu?.let {
-            return it
-        }
-
-        return throw NumberFormatException("잘못된 문자를 입력했어요 다시 입력해주세요.")
+    companion object {
+        const val ERROR_TEXT = "잘못된 문자를 입력했어요 다시 입력해주세요."
     }
 }

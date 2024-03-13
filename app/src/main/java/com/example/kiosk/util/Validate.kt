@@ -1,7 +1,11 @@
 package com.example.kiosk.util
 
 object Validate {
-    val mainMenuRange = IntRange(1, 5)
+    val mainMenuRange = IntRange(0, 5)
 
-    fun isInMenuRange(number: Int) = if (number in mainMenuRange) true else false
+    fun isInMainMenuRange(number: Int) {
+        require(number in mainMenuRange) {
+            "잘못된 숫자를 입력했어요 다시 입력해주세요."
+        }
+    }
 }

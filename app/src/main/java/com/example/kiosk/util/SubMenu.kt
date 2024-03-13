@@ -1,7 +1,7 @@
 package com.example.kiosk.util
 
 interface SubMenu {
-    abstract fun displayInfo(): String
+    fun displayInfo(): String
 
     val menuNumber: Int
     val menuName: String
