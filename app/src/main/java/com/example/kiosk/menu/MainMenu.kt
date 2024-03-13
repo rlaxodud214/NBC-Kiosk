@@ -1,11 +1,11 @@
 package com.example.kiosk.menu
 
-class MainMenu(
-    val number: Int,
-    val name: String,
-    val description: String,
+open class MainMenu(
+    open val number: Int,
+    open val name: String,
+    open val description: String,
 ) {
-    fun displayInfo(): String {
+    open fun displayInfo(): String {
         val nameWithSpace = name.padEnd(14, ' ')
 
         return "$number. $nameWithSpace  |  $description"

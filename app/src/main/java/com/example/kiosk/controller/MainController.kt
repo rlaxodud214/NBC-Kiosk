@@ -32,7 +32,8 @@ class MainController(
                         1 -> subMenuListBurger
                         2 -> subMenuListPizza
                         3 -> subMenuListIce
-                        else -> throw Exception("asd")
+                        // TODO: 한글 출력 오류가 있어 [eng] 추가 작성함 - 해결을 위해 5가지 시도를 했지만, 해결되지 않음
+                        else -> throw Exception("[no menu] 입력된 메뉴는 존재하지 않습니다.")
                     }
                     outputView.printSubMenuList(obj)
 
