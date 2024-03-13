@@ -1,4 +1,5 @@
-package com.example.kiosk.model.menu
+/*
+package com.example.kiosk.model.menu.enumCode
 
 interface SubMenu {
     val menuNumber: Int
@@ -6,3 +7,4 @@ interface SubMenu {
     val price: Double
     val description: String
 }
+ */

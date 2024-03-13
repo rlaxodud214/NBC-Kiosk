@@ -1,4 +1,5 @@
-package com.example.kiosk.model.menu
+/*
+package com.example.kiosk.model.menu.enumCode
 
 enum class MainMenu(
     val menuNumber: Int,
@@ -11,3 +12,4 @@ enum class MainMenu(
     BEER(4, "Beer", "뉴욕 브루클린 브루어리에서 양조한 맥주"),
     EXIT(0, "종료", "프로그램 종료");
 }
+ */

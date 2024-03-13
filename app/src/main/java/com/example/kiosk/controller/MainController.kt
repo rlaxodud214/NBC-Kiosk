@@ -1,8 +1,8 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.model.SelectedMenuNumber
-import com.example.kiosk.util.InputState
-import com.example.kiosk.util.Validate
+import com.example.kiosk.InputState
+import com.example.kiosk.model.Validate
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
 
@@ -11,8 +11,6 @@ class MainController(
     val outputView: OutputView,
 ) {
     fun run() {
-        val selectedMenuNumber = SelectedMenuNumber()
-
         while (inputState != InputState.DONE) {
             when (inputState) {
                 // TODO : when절 조건에 따른 바디 함수로 빼기
@@ -21,19 +19,19 @@ class MainController(
 
                     val inputNumber = inputView.inputMenuNumber("Main")
                     Validate.isInMainMenuRange(inputNumber)
-                    selectedMenuNumber.mainNumber = inputNumber
+                    SelectedMenuNumber.mainNumber = inputNumber
 
                     inputState = InputState.SUBMENU
                     isExit(inputNumber)
                 }
 
                 InputState.SUBMENU -> {
-                    outputView.printSubMenuList(selectedMenuNumber.mainNumber)
+                    outputView.printSubMenuList(SelectedMenuNumber.mainNumber)
 
                     val inputNumber = inputView.inputMenuNumber("Sub")
-                    selectedMenuNumber.subNumber = inputNumber
+                    SelectedMenuNumber.subNumber = inputNumber
 
-                    isBack(selectedMenuNumber.subNumber)
+                    isBack(SelectedMenuNumber.subNumber)
                 }
 
                 InputState.DONE -> break
@@ -51,6 +49,7 @@ class MainController(
     fun isBack(inputNumber: Int) {
         if (inputNumber == 0) {
             inputState = InputState.MAINMENU
+            SelectedMenuNumber.subNumber = Int.MIN_VALUE
             println("back complete")
         }
     }

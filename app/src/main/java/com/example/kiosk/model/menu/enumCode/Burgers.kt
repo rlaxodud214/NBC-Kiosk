@@ -1,4 +1,4 @@
-package com.example.kiosk.model.menu
+/*package com.example.kiosk.model.menu.enumCode
 
 enum class BurgersMenu(
     override val menuNumber: Int,
@@ -13,3 +13,4 @@ enum class BurgersMenu(
     HAM_BURGER(5, "Hamburger", 5.4, "비프패티를 기반으로 야채가 들어간 기본버거"),
     BACK(0, "뒤로가기", 0.0, "뒤로가기");
 }
+ */
