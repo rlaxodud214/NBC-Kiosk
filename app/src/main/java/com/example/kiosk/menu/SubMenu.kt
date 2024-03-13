@@ -1,7 +1,7 @@
 package com.example.kiosk.menu
 
 class SubMenu(
-    val number: String,
+    val number: Int,
     val name: String,
     val price: Double,
     val description: String,

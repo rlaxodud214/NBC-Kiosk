@@ -28,7 +28,7 @@ ___
 - [x] 레벨 1에서 작성한 로직을 MainMenu class로 수정하기
 
 
-- [ ] 레벨 1에서 작성한 로직을 SubMenu class로 수정하기
+- [x] 레벨 1에서 작성한 로직을 SubMenu class로 수정하기
 
 <br>
 

@@ -9,6 +9,6 @@ class InputView {
     }
 
     companion object {
-        const val ERROR_TEXT = "잘못된 문자를 입력했어요 다시 입력해주세요."
+        const val ERROR_TEXT = "[E] 잘못된 문자를 입력했어요 다시 입력해주세요."
     }
 }
