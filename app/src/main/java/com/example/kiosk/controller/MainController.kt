@@ -1,6 +1,7 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
+import com.example.kiosk.menu.MainMenu
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
 
@@ -20,6 +21,7 @@ class MainController(
                     inputNumber = inputView.inputMenuNumber("Main")
 
                     inputState = InputState.SUBMENU
+
                     isExit(inputNumber)
                 }
 
