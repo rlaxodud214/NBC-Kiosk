@@ -10,6 +10,10 @@ class MainController(
     val inputView: InputView,
     val outputView: OutputView,
 ) {
+    init {
+        // level3 - 4 pass
+    }
+    
     fun run() {
         var inputNumber = Int.MIN_VALUE
         outputView.printInputInfo()
@@ -18,7 +22,8 @@ class MainController(
             when (inputState) {
                 // TODO : when절 조건에 따른 바디 함수로 빼기
                 InputState.MAINMENU -> {
-                    outputView.printMainMenuList(mainMenuList)
+                    // TODO: 그냥 mainMenuList이걸 쓰면 되는데 왜 list를 써야할까?! -> 튜터님께 질문하기
+                    outputView.printMainMenuList(mainWithSubMenu.map { it.first })
 
                     inputNumber = inputView.inputMenuNumber("Main")
 
@@ -28,12 +33,16 @@ class MainController(
                 }
 
                 InputState.SUBMENU -> {
-                    val obj = when(inputNumber) {
-                        1 -> subMenuListBurger
-                        2 -> subMenuListPizza
-                        3 -> subMenuListIce
-                        else -> throw Exception("asd")
-                    }
+//                    val obj = when(inputNumber) {
+//                        1 -> subMenuListBurger
+//                        2 -> subMenuListPizza
+//                        3 -> subMenuListIce
+//                        // TODO: 한글 출력 오류가 있어 [eng] 추가 작성함 - 해결을 위해 5가지 시도를 했지만, 해결되지 않음
+//                        else -> throw Exception("[no menu] 입력된 메뉴는 존재하지 않습니다.")
+//                    }
+
+                    val obj = mainWithSubMenu.map { it.second }[inputNumber - 1]
+
                     outputView.printSubMenuList(obj)
 
                     inputNumber = inputView.inputMenuNumber("Sub")
@@ -92,6 +101,12 @@ class MainController(
             SubMenu(3, "Ice3", 3.4, "Ice_Info3"),
             SubMenu(4, "Ice4", 3.8, "Ice_Info4"),
             SubMenu(5, "Ice5", 5.4, "Ice_Info5"),
+        )
+
+        val mainWithSubMenu = listOf(
+            Pair(mainMenuList[0], subMenuListBurger),
+            Pair(mainMenuList[1], subMenuListPizza),
+            Pair(mainMenuList[2], subMenuListIce),
         )
     }
 }
