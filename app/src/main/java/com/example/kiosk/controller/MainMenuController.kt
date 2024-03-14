@@ -10,16 +10,18 @@ class MainMenuController(
     val inputView: InputView,
     val outputView: OutputView,
 ) {
-    fun runMain(userSelectNumber: UserSelectNumber) {
+    init {
         outputView.printMainMenuList(mainMenuList)
+    }
 
+    fun runMain(userSelectNumber: UserSelectNumber) {
         userSelectNumber.run {
-            number = inputView.inputMenuNumber("Main")
-            validateInRange(mainMenuList.size)
+            mainNumber = inputView.inputMenuNumber("Main")
+            validateInRange(mainNumber, mainMenuList.size)
         }
 
         MainController.inputState = InputState.SUBMENU
-        isExit(userSelectNumber.number)
+        isExit(userSelectNumber.mainNumber)
     }
 
     private fun isExit(inputNumber: Int) {

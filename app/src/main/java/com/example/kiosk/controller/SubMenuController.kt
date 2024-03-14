@@ -9,29 +9,33 @@ import com.example.kiosk.view.OutputView
 class SubMenuController(
     val inputView: InputView,
     val outputView: OutputView,
+    val userSelectNumber: UserSelectNumber,
 ) {
-    fun runSub(userSelectNumber: UserSelectNumber) {
-        val obj = when (userSelectNumber.number) {
+    lateinit var obj: List<SubMenu>
+
+    fun runSub() {
+        obj = when (userSelectNumber.mainNumber) {
             1 -> subMenuListBurger
             2 -> subMenuListPizza
             3 -> subMenuListIce
-            // TODO: 한글 출력 오류가 있어 [eng] 추가 작성함 - 해결을 위해 5가지 시도를 했지만, 해결되지 않음
-            else -> throw Exception("[not subMenu] 입력된 메뉴는 존재하지 않습니다.")
+            4 -> subMenuListBeer
+            else -> throw Exception("[not case] dev: 새로운 메뉴를 추가하셨나요?")
         }
+
         outputView.printSubMenuList(obj)
 
         userSelectNumber.run {
-            number = inputView.inputMenuNumber("Sub")
-            validateInRange(obj.size)
+            subNumber = inputView.inputMenuNumber("Sub")
+            validateInRange(subNumber, obj.size)
         }
 
-        isBack(userSelectNumber.number)
+        isBack(userSelectNumber.subNumber)
     }
 
     private fun isBack(inputNumber: Int) {
         if (inputNumber == 0) {
             MainController.inputState = InputState.MAINMENU
-            println("back complete")
+            println("back complete\n")
         }
     }
 
@@ -56,6 +60,13 @@ class SubMenuController(
             SubMenu(3, "Ice3", 3.4, "Ice_Info3"),
             SubMenu(4, "Ice4", 3.8, "Ice_Info4"),
             SubMenu(5, "Ice5", 5.4, "Ice_Info5"),
+        )
+        val subMenuListBeer = listOf(
+            SubMenu(1, "Beer1", 4.9, "Beer_Info1"),
+            SubMenu(2, "Beer2", 5.9, "Beer_Info2"),
+            SubMenu(3, "Beer3", 4.4, "Beer_Info3"),
+            SubMenu(4, "Beer4", 2.8, "Beer_Info4"),
+            SubMenu(5, "Beer5", 3.4, "Beer_Info5"),
         )
     }
 }
