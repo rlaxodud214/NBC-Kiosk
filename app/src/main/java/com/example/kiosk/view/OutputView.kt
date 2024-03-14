@@ -5,17 +5,20 @@ import com.example.kiosk.model.menu.SubMenu
 
 class OutputView {
     fun printInputInfo() {
-        println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.")
+        println("[Hello] SHAKESHACK BURGER 에 오신걸 환영합니다.")
+        println("[Info] 아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.")
     }
 
-    fun printMainMenuList(mainMenuList: List<MainMenu>) {
+    fun printMainMenuList(mainMenuList: List<MainMenu>, isEnableshoppingBasket: Boolean) {
         println("\n[ SHAKESHACK MENU ]")
 
         mainMenuList.forEach {
             println(it.displayInfo())
         }
 
-        println("0. Exit            |  프로그램 종료\n")
+        if(isEnableshoppingBasket == false) {
+            println("0. Exit            |  프로그램 종료\n")
+        }
     }
 
     fun printSubMenuList(subMenuList: List<SubMenu>) {

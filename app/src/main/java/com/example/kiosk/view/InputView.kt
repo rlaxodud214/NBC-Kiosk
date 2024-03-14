@@ -5,6 +5,7 @@ class InputView {
         print("$prompt: ")
         val inputNumber = readLine()!!.toIntOrNull()
 
+        println()
         return inputNumber ?: throw NumberFormatException(ERROR_TEXT)
     }
 

@@ -7,8 +7,8 @@ import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
 
 class MainController(
-    inputView: InputView,
-    outputView: OutputView,
+    val inputView: InputView,
+    val outputView: OutputView,
 ) {
     var userSelectNumber = UserSelectNumber()
     val mainMenuController = MainMenuController(inputView, outputView)
@@ -17,17 +17,29 @@ class MainController(
 
     fun run() {
         when (inputState) {
-            InputState.MAINMENU -> mainMenuController.runMain(userSelectNumber)
+            InputState.MAINMENU -> {
+                mainMenuController.runMain(userSelectNumber, isEnableShoppingBasket)
+            }
+
             InputState.SUBMENU -> subMenuController.runSub()
 
             InputState.SHOPPING -> {
                 val item = subMenuController.chooseMenu
 
                 println(item.displayInfo().substring(3))
-                // InputView.inputMenuNumber("위 메뉴를 장바구니에 추가하시겠습니까? [1] 확인, [2] 취소")
+                val inputNumber = inputView.inputMenuNumber("위 메뉴를 장바구니에 추가하시겠습니까? [1] 확인, [2] 취소")
 
-                shoppingBasket.addItem(item)
-                inputState = InputState.DONE
+                if (inputNumber == 1) {
+                    isEnableShoppingBasket = true
+                    shoppingBasket.addItem(item)
+                    println("${item.name}가 장바구니에 추가되었습니다.\n")
+                    inputState = InputState.MAINMENU
+                    outputView.printInputInfo()
+                }
+
+                if (inputNumber == 2) {
+                    inputState = InputState.SUBMENU
+                }
             }
 
             InputState.DONE -> return
@@ -36,5 +48,7 @@ class MainController(
 
     companion object {
         var inputState = InputState.MAINMENU
+
+        var isEnableShoppingBasket = false
     }
 }

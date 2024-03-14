@@ -28,18 +28,18 @@ class SubMenuController(
         userSelectNumber.run {
             subNumber = inputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
             validateInRange(subNumber, obj.size)
-            chooseMenu = obj[subNumber - 1]
+            if (subNumber == 0) {
+                back()
+            } else {
+                chooseMenu = obj[subNumber - 1]
+                MainController.inputState = InputState.SHOPPING
+            }
         }
-
-        MainController.inputState = InputState.SHOPPING
-        isBack(userSelectNumber.subNumber)
     }
 
-    private fun isBack(inputNumber: Int) {
-        if (inputNumber == 0) {
-            MainController.inputState = InputState.MAINMENU
-            println("back complete\n")
-        }
+    private fun back() {
+        MainController.inputState = InputState.MAINMENU
+        println("back complete\n")
     }
 
     companion object {
