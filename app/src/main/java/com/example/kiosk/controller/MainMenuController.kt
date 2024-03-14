@@ -14,14 +14,15 @@ class MainMenuController(
     fun runMain(userSelectNumber: UserSelectNumber, isEnableShoppingBasket: Boolean) {
         outputView.printMainMenuList(mainMenuList, isEnableShoppingBasket)
 
+        userSelectNumber.mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
+
         if (isEnableShoppingBasket == true) {
+            orderList
             userSelectNumber.run {
-                mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
-                validateInRange(mainNumber, mainMenuList.size + orderList.size)
+                validateInRange(userSelectNumber.mainNumber, mainMenuList.size + orderList.size)
             }
         } else {
             userSelectNumber.run {
-                mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
                 validateInRange(mainNumber, mainMenuList.size)
             }
         }
