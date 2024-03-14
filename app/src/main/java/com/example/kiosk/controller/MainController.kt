@@ -21,7 +21,13 @@ class MainController(
             InputState.SUBMENU -> subMenuController.runSub()
 
             InputState.SHOPPING -> {
-                
+                val item = subMenuController.chooseMenu
+
+                println(item.displayInfo().substring(3))
+                // InputView.inputMenuNumber("위 메뉴를 장바구니에 추가하시겠습니까? [1] 확인, [2] 취소")
+
+                shoppingBasket.addItem(item)
+                inputState = InputState.DONE
             }
 
             InputState.DONE -> return

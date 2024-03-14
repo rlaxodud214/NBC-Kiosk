@@ -3,7 +3,6 @@ package com.example.kiosk
 import com.example.kiosk.controller.MainController
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
-import java.lang.Exception
 
 fun main() {
     val inputView = InputView()

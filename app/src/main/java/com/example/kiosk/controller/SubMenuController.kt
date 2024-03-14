@@ -12,6 +12,7 @@ class SubMenuController(
     val userSelectNumber: UserSelectNumber,
 ) {
     lateinit var obj: List<SubMenu>
+    lateinit var chooseMenu: SubMenu
 
     fun runSub() {
         obj = when (userSelectNumber.mainNumber) {
@@ -25,10 +26,12 @@ class SubMenuController(
         outputView.printSubMenuList(obj)
 
         userSelectNumber.run {
-            subNumber = inputView.inputMenuNumber("Sub")
+            subNumber = inputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
             validateInRange(subNumber, obj.size)
+            chooseMenu = obj[subNumber - 1]
         }
 
+        MainController.inputState = InputState.SHOPPING
         isBack(userSelectNumber.subNumber)
     }
 
@@ -68,5 +71,12 @@ class SubMenuController(
             SubMenu(4, "Beer4", 2.8, "Beer_Info4"),
             SubMenu(5, "Beer5", 3.4, "Beer_Info5"),
         )
+
+//        val subMenuList = listOf(
+//            subMenuListBurger,
+//            subMenuListPizza,
+//            subMenuListIce,
+//            subMenuListBeer
+//        )
     }
 }

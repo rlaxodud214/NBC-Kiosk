@@ -1,8 +1,8 @@
 package com.example.kiosk.view
 
 class InputView {
-    fun inputMenuNumber(type: String): Int {
-        print("$type 메뉴를 선택해주세요 : ")
+    fun inputMenuNumber(prompt: String): Int {
+        print("$prompt: ")
         val inputNumber = readLine()!!.toIntOrNull()
 
         return inputNumber ?: throw NumberFormatException(ERROR_TEXT)

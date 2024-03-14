@@ -16,7 +16,7 @@ class MainMenuController(
 
     fun runMain(userSelectNumber: UserSelectNumber) {
         userSelectNumber.run {
-            mainNumber = inputView.inputMenuNumber("Main")
+            mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
             validateInRange(mainNumber, mainMenuList.size)
         }
 
