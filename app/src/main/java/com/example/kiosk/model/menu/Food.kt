@@ -1,4 +1,4 @@
-package com.example.kiosk.menu
+package com.example.kiosk.model.menu
 
 abstract class Food(
     open val number: Int,

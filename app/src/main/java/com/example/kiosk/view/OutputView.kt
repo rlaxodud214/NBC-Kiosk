@@ -1,7 +1,7 @@
 package com.example.kiosk.view
 
-import com.example.kiosk.menu.MainMenu
-import com.example.kiosk.menu.SubMenu
+import com.example.kiosk.model.menu.MainMenu
+import com.example.kiosk.model.menu.SubMenu
 
 class OutputView {
     fun printInputInfo() {

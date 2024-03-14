@@ -1,8 +1,9 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
-import com.example.kiosk.menu.MainMenu
-import com.example.kiosk.menu.SubMenu
+import com.example.kiosk.model.UserSelectNumber
+import com.example.kiosk.model.menu.MainMenu
+import com.example.kiosk.model.menu.SubMenu
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
 
@@ -15,7 +16,7 @@ class MainController(
     }
 
     fun run() {
-        var inputNumber = Int.MIN_VALUE
+        var userSelectNumber = UserSelectNumber(Int.MIN_VALUE)
         outputView.printInputInfo()
 
         while (inputState != InputState.DONE) {
@@ -24,15 +25,17 @@ class MainController(
                 InputState.MAINMENU -> {
                     outputView.printMainMenuList(mainMenuList)
 
-                    inputNumber = inputView.inputMenuNumber("Main")
+                    userSelectNumber.run {
+                        number = inputView.inputMenuNumber("Main")
+                        validateInRange(mainMenuList.size)
+                    }
 
                     inputState = InputState.SUBMENU
-
-                    isExit(inputNumber)
+                    isExit(userSelectNumber.number)
                 }
 
                 InputState.SUBMENU -> {
-                    val obj = when(inputNumber) {
+                    val obj = when (userSelectNumber.number) {
                         1 -> subMenuListBurger
                         2 -> subMenuListPizza
                         3 -> subMenuListIce
@@ -41,9 +44,12 @@ class MainController(
                     }
                     outputView.printSubMenuList(obj)
 
-                    inputNumber = inputView.inputMenuNumber("Sub")
+                    userSelectNumber.run {
+                        number = inputView.inputMenuNumber("Sub")
+                        validateInRange(obj.size)
+                    }
 
-                    isBack(inputNumber)
+                    isBack(userSelectNumber.number)
                 }
 
                 InputState.DONE -> break

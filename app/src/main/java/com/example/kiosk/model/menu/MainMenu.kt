@@ -1,14 +1,13 @@
-package com.example.kiosk.menu
+package com.example.kiosk.model.menu
 
-class SubMenu(
+open class MainMenu(
     override val number: Int,
     override val name: String,
-    val price: Double,
     override val description: String,
-) : MainMenu(number, name, description) {
+) : Food(number, name, description) {
     override fun displayInfo(): String {
         val nameWithSpace = name.padEnd(14, ' ')
 
-        return "$number. $nameWithSpace  |  $price$  |  $description"
+        return "$number. $nameWithSpace  |  $description"
     }
 }
