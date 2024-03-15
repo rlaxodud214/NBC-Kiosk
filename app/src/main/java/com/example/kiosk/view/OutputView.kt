@@ -1,6 +1,8 @@
 package com.example.kiosk.view
 
+import com.example.kiosk.controller.MainController.Companion.shoppingBasket
 import com.example.kiosk.model.menu.Menu
+import kotlin.math.roundToInt
 
 class OutputView {
     fun printInputInfo() {
@@ -16,5 +18,17 @@ class OutputView {
         }
 
         post?.let { println("$post\n") }
+    }
+
+    fun printOrderInfo() {
+        println("아래와 같이 주문 하시겠습니까?\n")
+
+        println("[ Orders ]")
+        shoppingBasket.getItemInfo().forEach{
+            println(it.substring(3))
+        }
+
+        println("\n[ Total Price ]")
+        println("${shoppingBasket.getTotalPrice()}$\n")
     }
 }

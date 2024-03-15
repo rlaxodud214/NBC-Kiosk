@@ -11,8 +11,15 @@ class ShoppingBasket {
         items.add(item)
     }
 
-    // 장바구니의 목록 출력 - 데이터 반환
-    fun printItem(): List<String> = items.map { it.displayInfo() }
+    // 장바구니 목록의 출력 데이터를 반환한다.
+    fun getItemInfo(): List<String> = items.map {
+        it.displayInfo()
+    }
+
+    // 장바구니에 담긴 메뉴의 총 가격을 반환한다.
+    fun getTotalPrice() = items.map {
+        it.price * 10
+    }.sum() / 10.0
 
     // 주문 완료 시, 장바구니를 초기화 한다.
     fun resetItems() {

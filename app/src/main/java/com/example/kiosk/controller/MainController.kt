@@ -2,7 +2,7 @@ package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
 import com.example.kiosk.model.ShoppingBasket
-import com.example.kiosk.model.UserSelectNumber
+import com.example.kiosk.model.UserSelectNumbers
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
 
@@ -10,17 +10,14 @@ class MainController(
     val inputView: InputView,
     val outputView: OutputView,
 ) {
-    var userSelectNumber = UserSelectNumber()
     val mainMenuController = MainMenuController(inputView, outputView)
-    val subMenuController = SubMenuController(inputView, outputView, userSelectNumber)
-    val shoppingBasket = ShoppingBasket()
+    val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
+
 
     fun run() {
         when (inputState) {
-            InputState.MAINMENU -> {
-                mainMenuController.runMain(userSelectNumber, isEnableShoppingBasket)
-            }
-
+            // main과 sub를 하나의 MenuController로 다루는 게 맞을까?
+            InputState.MAINMENU -> mainMenuController.runMain()
             InputState.SUBMENU -> subMenuController.runSub()
 
             InputState.SHOPPING -> {
@@ -43,6 +40,18 @@ class MainController(
             }
 
             InputState.ORDER -> {
+                when(userSelectNumbers.mainNumber) {
+                    // 장바구니를 확인 후 주문합니다.
+                    5 -> {
+                        outputView.printOrderInfo()
+                        val inputNumber = inputView.inputMenuNumber("1. order      2. back")
+                    }
+                    // 진행중인 주문을 취소합니다.
+                    6 -> {
+
+                    }
+                }
+
 
             }
 
@@ -51,6 +60,9 @@ class MainController(
     }
 
     companion object {
+        var userSelectNumbers = UserSelectNumbers()
+        val shoppingBasket = ShoppingBasket()
+
         var inputState = InputState.MAINMENU
 
         var isEnableShoppingBasket = false

@@ -1,8 +1,9 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
+import com.example.kiosk.controller.MainController.Companion.isEnableShoppingBasket
+import com.example.kiosk.controller.MainController.Companion.userSelectNumbers
 import com.example.kiosk.model.Order
-import com.example.kiosk.model.UserSelectNumber
 import com.example.kiosk.model.menu.MainMenu
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
@@ -11,21 +12,28 @@ class MainMenuController(
     val inputView: InputView,
     val outputView: OutputView,
 ) {
-    fun runMain(userSelectNumber: UserSelectNumber, isEnableShoppingBasket: Boolean) {
+    fun runMain() {
         outputView.printMenuList("SHAKESHACK", mainMenuList, "0. Exit            |  프로그램 종료")
         if (isEnableShoppingBasket == true) {
             outputView.printMenuList("Order", orderList)
         }
 
-        userSelectNumber.run {
+        userSelectNumbers.run {
             mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
 
             val validateLength = if (isEnableShoppingBasket) mainMenuList.size + orderList.size else mainMenuList.size
             validateInRange(mainNumber, validateLength)
         }
 
-        MainController.inputState = InputState.SUBMENU
-        isExit(userSelectNumber.mainNumber)
+        if (userSelectNumbers.mainNumber in 5..6) {
+            MainController.inputState = InputState.ORDER
+        } else {
+            MainController.inputState = InputState.SUBMENU
+        }
+
+        if (isEnableShoppingBasket == false) {
+            isExit(userSelectNumbers.mainNumber)
+        }
     }
 
     private fun isExit(inputNumber: Int) {

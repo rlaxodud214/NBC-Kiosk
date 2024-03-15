@@ -1,7 +1,7 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
-import com.example.kiosk.model.UserSelectNumber
+import com.example.kiosk.model.UserSelectNumbers
 import com.example.kiosk.model.menu.SubMenu
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
@@ -9,7 +9,7 @@ import com.example.kiosk.view.OutputView
 class SubMenuController(
     val inputView: InputView,
     val outputView: OutputView,
-    val userSelectNumber: UserSelectNumber,
+    val userSelectNumber: UserSelectNumbers,
 ) {
     lateinit var subMenuList: List<SubMenu>
     lateinit var chooseMenu: SubMenu

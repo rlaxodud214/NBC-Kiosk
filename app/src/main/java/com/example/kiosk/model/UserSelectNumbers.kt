@@ -1,6 +1,6 @@
 package com.example.kiosk.model
 
-class UserSelectNumber(
+class UserSelectNumbers(
     var mainNumber: Int = Int.MIN_VALUE,
     var subNumber: Int = Int.MIN_VALUE,
 ) {
