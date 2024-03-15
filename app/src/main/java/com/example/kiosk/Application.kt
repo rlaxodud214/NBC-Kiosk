@@ -12,15 +12,13 @@ fun main() {
     outputView.printInputInfo()
 
     while (MainController.inputState != InputState.DONE) {
-        mainController.run()
-        initState(mainController)
-//        try {
-//            mainController.run()
-//        } catch (e: Exception) {
-//            val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
-//            initState(mainController)
-//            println("$errorMessage \n")
-//        }
+        try {
+            mainController.run()
+        } catch (e: Exception) {
+            val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
+            initState(mainController)
+            println("$errorMessage \n")
+        }
     }
 }
 

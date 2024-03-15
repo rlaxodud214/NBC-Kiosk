@@ -12,9 +12,9 @@ class MainMenuController(
     val outputView: OutputView,
 ) {
     fun runMain(userSelectNumber: UserSelectNumber, isEnableShoppingBasket: Boolean) {
-        outputView.printMainMenuList(mainMenuList, isEnableShoppingBasket)
+        outputView.printMenuList("SHAKESHACK", mainMenuList, "0. Exit            |  프로그램 종료")
         if (isEnableShoppingBasket == true) {
-            outputView.printOrderMenuList(orderList)
+            outputView.printMenuList("Order", orderList)
         }
 
         userSelectNumber.run {

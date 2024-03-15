@@ -11,27 +11,26 @@ class SubMenuController(
     val outputView: OutputView,
     val userSelectNumber: UserSelectNumber,
 ) {
-    lateinit var obj: List<SubMenu>
+    lateinit var subMenuList: List<SubMenu>
     lateinit var chooseMenu: SubMenu
 
     fun runSub() {
-        obj = when (userSelectNumber.mainNumber) {
+        subMenuList = when (userSelectNumber.mainNumber) {
             1 -> subMenuListBurger
             2 -> subMenuListPizza
             3 -> subMenuListIce
             4 -> subMenuListBeer
             else -> throw Exception("[not case] dev: 새로운 메뉴를 추가하셨나요?")
         }
-
-        outputView.printSubMenuList(obj)
+        outputView.printMenuList(MENU_LIST[userSelectNumber.mainNumber], subMenuList, "0. Back          | 뒤로가기\n")
 
         userSelectNumber.run {
             subNumber = inputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
-            validateInRange(subNumber, obj.size)
+            validateInRange(subNumber, subMenuList.size)
             if (subNumber == 0) {
                 back()
             } else {
-                chooseMenu = obj[subNumber - 1]
+                chooseMenu = subMenuList[subNumber - 1]
                 MainController.inputState = InputState.SHOPPING
             }
         }
@@ -43,6 +42,13 @@ class SubMenuController(
     }
 
     companion object {
+        val MENU_LIST = listOf(
+            "====indexing====",
+            "Burgers",
+            "Pizza",
+            "Drink",
+            "Beer",
+        )
         val subMenuListBurger = listOf(
             SubMenu(1, "Burger1", 6.9, "Burger_Info1"),
             SubMenu(2, "Burger2", 8.9, "Burger_Info2"),
