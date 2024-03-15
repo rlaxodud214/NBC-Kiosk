@@ -42,6 +42,10 @@ class MainController(
                 }
             }
 
+            InputState.ORDER -> {
+
+            }
+
             InputState.DONE -> return
         }
     }

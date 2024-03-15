@@ -1,7 +1,7 @@
 package com.example.kiosk.view
 
-import com.example.kiosk.model.menu.MainMenu
-import com.example.kiosk.model.menu.SubMenu
+import com.example.kiosk.model.Order
+import com.example.kiosk.model.menu.Menu
 
 class OutputView {
     fun printInputInfo() {
@@ -9,19 +9,29 @@ class OutputView {
         println("[Info] 아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.")
     }
 
-    fun printMainMenuList(mainMenuList: List<MainMenu>, isEnableshoppingBasket: Boolean) {
+    // TODO: 파라미터 타입을 Food로 바꿔서 printMainMenuList, printSubMenuList 코드를 통합할 수 있을 것 같다!!
+    // 상속 구조를 갖췄기 때문에 하나로 합칠 수 있구나 !!
+    fun printMainMenuList(mainMenuList: List<Menu>, isEnableshoppingBasket: Boolean) {
         println("\n[ SHAKESHACK MENU ]")
 
         mainMenuList.forEach {
             println(it.displayInfo())
         }
 
-        if(isEnableshoppingBasket == false) {
+        if (isEnableshoppingBasket == false) {
             println("0. Exit            |  프로그램 종료\n")
         }
     }
 
-    fun printSubMenuList(subMenuList: List<SubMenu>) {
+    fun printOrderMenuList(orderList: List<Order>) {
+        println("\n[ ORDER MENU ]")
+
+        orderList.forEach {
+            println(it.displayInfo())
+        }
+    }
+
+    fun printSubMenuList(subMenuList: List<Menu>) {
         println("\n[ Burgers MENU ]")
 
         subMenuList.forEach {

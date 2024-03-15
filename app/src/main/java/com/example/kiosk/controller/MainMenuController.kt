@@ -13,19 +13,17 @@ class MainMenuController(
 ) {
     fun runMain(userSelectNumber: UserSelectNumber, isEnableShoppingBasket: Boolean) {
         outputView.printMainMenuList(mainMenuList, isEnableShoppingBasket)
-
-        userSelectNumber.mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
-
         if (isEnableShoppingBasket == true) {
-            orderList
-            userSelectNumber.run {
-                validateInRange(userSelectNumber.mainNumber, mainMenuList.size + orderList.size)
-            }
-        } else {
-            userSelectNumber.run {
-                validateInRange(mainNumber, mainMenuList.size)
-            }
+            outputView.printOrderMenuList(orderList)
         }
+
+        userSelectNumber.run {
+            mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
+
+            val validateLength = if (isEnableShoppingBasket) mainMenuList.size + orderList.size else mainMenuList.size
+            validateInRange(mainNumber, validateLength)
+        }
+
         MainController.inputState = InputState.SUBMENU
         isExit(userSelectNumber.mainNumber)
     }
