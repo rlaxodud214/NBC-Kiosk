@@ -3,7 +3,7 @@ package com.example.kiosk.controller
 import com.example.kiosk.InputState
 import com.example.kiosk.controller.MainController.Companion.isEnableShoppingBasket
 import com.example.kiosk.controller.MainController.Companion.userSelectNumbers
-import com.example.kiosk.model.Order
+import com.example.kiosk.model.menu.OrderMenu
 import com.example.kiosk.model.menu.MainMenu
 import com.example.kiosk.view.InputView
 import com.example.kiosk.view.OutputView
@@ -15,7 +15,7 @@ class MainMenuController(
     fun runMain() {
         outputView.printMenuList("SHAKESHACK", mainMenuList, "0. Exit            |  프로그램 종료")
         if (isEnableShoppingBasket == true) {
-            outputView.printMenuList("Order", orderList)
+            outputView.printMenuList("OrderMenu", orderList)
         }
 
         userSelectNumbers.run {
@@ -52,8 +52,8 @@ class MainMenuController(
         )
 
         val orderList = listOf(
-            Order(5, "Order", "장바구니를 확인 후 주문합니다."),
-            Order(6, "Cancel", "진행중인 주문을 취소합니다.")
+            OrderMenu(5, "OrderMenu", "장바구니를 확인 후 주문합니다."),
+            OrderMenu(6, "Cancel", "진행중인 주문을 취소합니다.")
         )
     }
 }

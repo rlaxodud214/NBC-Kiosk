@@ -1,6 +1,7 @@
 package com.example.kiosk.controller
 
 import com.example.kiosk.InputState
+import com.example.kiosk.model.Balance
 import com.example.kiosk.model.ShoppingBasket
 import com.example.kiosk.model.UserSelectNumbers
 import com.example.kiosk.view.InputView
@@ -13,8 +14,7 @@ class MainController(
     val mainMenuController = MainMenuController(inputView, outputView)
     val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
 
-
-    fun run() {
+    fun run(balance: Balance) {
         when (inputState) {
             // main과 sub를 하나의 MenuController로 다루는 게 맞을까?
             InputState.MAINMENU -> mainMenuController.runMain()
@@ -41,30 +41,45 @@ class MainController(
 
             InputState.ORDER -> {
                 when(userSelectNumbers.mainNumber) {
-                    // 장바구니를 확인 후 주문합니다.
-                    5 -> {
-                        outputView.printOrderInfo()
-                        val inputNumber = inputView.inputMenuNumber("1. order      2. back")
-                    }
-                    // 진행중인 주문을 취소합니다.
-                    6 -> {
-
-                    }
+                    5 -> runOrder(balance)
+                    6 -> cancleOrder()
                 }
-
-
             }
 
             InputState.DONE -> return
         }
     }
 
-    companion object {
-        var userSelectNumbers = UserSelectNumbers()
-        val shoppingBasket = ShoppingBasket()
+    fun runOrder(balance: Balance) {
+        outputView.printOrderInfo()
+        val inputNumber = inputView.inputMenuNumber("1. order      2. back")
 
+        when(inputNumber) {
+            1 -> {
+                // 현재 잔액 판단 -> 결제 or 잔액 부족 문구 출력
+                val totalPrice = shoppingBasket.getTotalPrice()
+                if (balance.money < totalPrice) {
+                    println("현재 잔액은 ${balance}로 ${totalPrice - balance.money}\$가 부족해서 주문할 수 없습니다.")
+                    return
+                }
+                println()
+            }
+
+            2 -> inputState = InputState.MAINMENU
+        }
+
+    }
+
+    fun cancleOrder() {
+
+    }
+
+    companion object {
         var inputState = InputState.MAINMENU
 
+        var userSelectNumbers = UserSelectNumbers()
         var isEnableShoppingBasket = false
+
+        val shoppingBasket = ShoppingBasket()
     }
 }
