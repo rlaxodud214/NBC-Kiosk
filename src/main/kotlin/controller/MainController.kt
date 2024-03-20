@@ -60,7 +60,7 @@ class MainController(
             return
         }
 
-        val isIssue = outputView.printOrderInfo()
+        outputView.printOrderInfo()
         val inputNumber = inputView.inputMenuNumber("1. order      2. back")
 
         if (inputNumber != 1) {

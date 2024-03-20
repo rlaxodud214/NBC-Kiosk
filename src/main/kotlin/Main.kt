@@ -24,12 +24,18 @@ fun main() {
     while (MainController.inputState != InputState.DONE) {
         try {
             mainController.run(userBalance)
-        } catch (e: Exception) {
-            val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
+        } catch (e: NumberFormatException) {
+            printErrorMessage(e)
             initState()
-            println("$errorMessage \n")
+        } catch (e: IllegalStateException) {
+            printErrorMessage(e)
         }
     }
+}
+
+fun printErrorMessage(e: Exception) {
+    val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
+    println("$errorMessage \n")
 }
 
 fun initState() {
