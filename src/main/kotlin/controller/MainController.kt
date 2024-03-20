@@ -55,7 +55,12 @@ class MainController(
     }
 
     fun runOrder(balance: Balance) {
-        outputView.printOrderInfo()
+        if (shoppingBasket.getItemInfo().size == 0) {
+            println("[no shopping] 장바구니가 비어있어요!")
+            return
+        }
+
+        val isIssue = outputView.printOrderInfo()
         val inputNumber = inputView.inputMenuNumber("1. order      2. back")
 
         if (inputNumber != 1) {
@@ -76,7 +81,7 @@ class MainController(
         // 주문 데이터를 백업한다. 아래 cancleOrder에서 써야함
         val orderObject = OrderData(
             orderList.size + 1,
-            shoppingBasket.items,
+            shoppingBasket.items.toList().toMutableList(),
             false
         )
         orderList.add(orderObject)
@@ -112,7 +117,7 @@ class MainController(
         val orderList = mutableListOf<OrderData>()
 
         fun cutDecimal(number: Double): Double {
-            return 10 * (number).roundToInt() / 10.0
+            return (10 * (number).roundToInt()) / 10.0
         }
     }
 }

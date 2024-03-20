@@ -8,7 +8,7 @@ class SubMenu(
 ) : MainMenu(number, name, description) {
     override fun displayInfo(): String {
         val nameWithSpace = name.padEnd(14, ' ')
-        val priceWithSpace = "$price\$".padStart(6, ' ')
+        val priceWithSpace = "$price\$".padStart(4, ' ')
 
         return "$number. $nameWithSpace  |  $priceWithSpace  |  $description"
     }

@@ -16,15 +16,10 @@ class OutputView {
             println(it.displayInfo())
         }
 
-        post?.let { println(post) }
+        post?.let { print(post) }.also { println() }
     }
 
     fun printOrderInfo() {
-        if (shoppingBasket.getItemInfo().size == 0) {
-            println("[no shopping] 장바구니가 비어있어요!")
-            return
-        }
-
         println("아래와 같이 주문 하시겠습니까?\n")
 
         println("[ Orders ]")

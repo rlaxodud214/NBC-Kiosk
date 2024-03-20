@@ -1,5 +1,6 @@
 package com.example.kiosk.model
 
+import com.example.kiosk.controller.MainController
 import com.example.kiosk.model.menu.SubMenu
 
 // 주문 데이터용 data class를 만든다.
@@ -10,18 +11,19 @@ data class OrderData(
     var isCancel: Boolean = false
 ) {
     override fun toString(): String {
-        return """
-            OrderNumber: $orderNumber
-            OrderMenu: ${
-            items.map {
-                it.displayInfo().substring(3)
-            }.apply { 
-                println(this)
-            }.joinToString { "\n" }
-        }
-            OrderState: ${
-            if (isCancel) "취소" else "정상"
-        }        
-        """.trimIndent()
+        val itemInfos = items.map {
+            "- " + it.displayInfo().substring(3)
+        }.joinToString("\n")
+
+        val orderState = if (isCancel) "취소" else "정상"
+
+        val sb = StringBuilder()
+
+        sb.append("OrderNumber: $orderNumber\n")
+        sb.append("OrderMenu: \n")
+        sb.append("$itemInfos\n")
+        sb.append("OrderState: $orderState\n")
+
+        return sb.toString()
     }
 }
