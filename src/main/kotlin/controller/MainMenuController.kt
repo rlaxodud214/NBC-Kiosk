@@ -12,11 +12,11 @@ class MainMenuController(
 ) {
     private val mainMenuData = MainMenuData()
 
-    fun run(isEnableShoppingBasket: Boolean) {
+    fun run(isEnableShoppingBasket: Boolean): InputState {
         printPrompt(isEnableShoppingBasket)
         val inputNumber = inputNumberValidate(isEnableShoppingBasket)
 
-        nextInputState(inputNumber)
+        return nextInputState(inputNumber)
     }
 
     private fun printPrompt(isEnableShoppingBasket: Boolean) {
@@ -51,16 +51,16 @@ class MainMenuController(
         return inputNumber
     }
 
-    private fun nextInputState(inputNumber: Int) {
+    private fun nextInputState(inputNumber: Int): InputState {
         if (inputNumber in 5..6) {
-            MainController.inputState = InputState.ORDER
-            return
+            return InputState.ORDER
         }
-        MainController.inputState = InputState.SUBMENU
 
         if (inputNumber == BACK_OR_EXIT_NUMBER) {
-            MainController.inputState = InputState.DONE
             println("exit complete")
+            return InputState.DONE
         }
+
+        return InputState.SUBMENU
     }
 }

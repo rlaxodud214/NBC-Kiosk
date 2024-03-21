@@ -7,12 +7,15 @@ import org.example.model.menu.SubMenu
 import org.example.view.InputView
 import org.example.view.OutputView
 
-class ShoppingController(val userSelectNumber: UserSelectNumbers, val shoppingBasket: ShoppingBasketData) {
-    fun run(selectedMenu: SubMenu) {
+class ShoppingController(
+    val userSelectNumber: UserSelectNumbers,
+    val shoppingBasket: ShoppingBasketData
+) {
+    fun run(selectedMenu: SubMenu): InputState {
         OutputView.printMenu(selectedMenu)
         val inputNumber = inputNumberValidate()
 
-        nextInputState(selectedMenu, inputNumber)
+        return nextInputState(selectedMenu, inputNumber)
     }
 
     private fun inputNumberValidate(): Int {
@@ -24,16 +27,15 @@ class ShoppingController(val userSelectNumber: UserSelectNumbers, val shoppingBa
         return inputNumber
     }
 
-    private fun nextInputState(selectedMenu: SubMenu, inputNumber: Int) {
+    private fun nextInputState(selectedMenu: SubMenu, inputNumber: Int): InputState {
         if (inputNumber == SHOPPING_ADD_CANCLE) {
-            MainController.inputState = InputState.SUBMENU
-            return
+            return InputState.SUBMENU
         }
 
         shoppingProcessing(selectedMenu)
 
-        MainController.inputState = InputState.MAINMENU
         OutputView.printInputInfo()
+        return InputState.MAINMENU
     }
 
     private fun shoppingProcessing(selectedMenu: SubMenu) {

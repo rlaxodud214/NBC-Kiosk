@@ -13,9 +13,8 @@ class MainMenuData() {
     )
 
     val orderList = listOf(
-        OrderMenu(lastMainMenuNumber() + 1, "OrderMenu", "장바구니를 확인 후 주문합니다."),
-        OrderMenu(lastMainMenuNumber() + 2, "Cancel", "진행중인 주문을 취소합니다.")
+        OrderMenu(getLastMainMenuNumber() + 1, "OrderMenu", "장바구니를 확인 후 주문합니다."),
+        OrderMenu(getLastMainMenuNumber() + 2, "Cancel", "진행중인 주문을 취소합니다.")
     )
-
-    private fun lastMainMenuNumber() = mainMenuList.size
+    fun getLastMainMenuNumber() = mainMenuList.size
 }

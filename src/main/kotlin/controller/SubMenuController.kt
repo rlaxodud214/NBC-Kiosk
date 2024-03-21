@@ -11,18 +11,18 @@ import org.example.view.OutputView
 class SubMenuController(
     val userSelectNumber: UserSelectNumbers,
 ) {
-    val subMenuList: List<SubMenu> by lazy {
-        subMenuData.subMenuList[userSelectNumber.mainNumber - 1]
-    }
-
     lateinit var chooseMenu: SubMenu
     private val subMenuData = SubMenuData()
+    val subMenuList: List<SubMenu>
+        get() {
+            return subMenuData.subMenuList[userSelectNumber.mainNumber - 1]
+        }
 
-    fun run() {
+    fun run(): InputState {
         printPrompt()
         val inputNumber = inputNumberValidate()
 
-        nextInputState(inputNumber)
+        return nextInputState(inputNumber)
     }
 
     private fun printPrompt() {
@@ -42,14 +42,13 @@ class SubMenuController(
         return inputNumber
     }
 
-    private fun nextInputState(inputNumber: Int) {
+    private fun nextInputState(inputNumber: Int): InputState {
         if (inputNumber == BACK_OR_EXIT_NUMBER) {
-            MainController.inputState = InputState.MAINMENU
             println("back complete\n")
-            return
+            return InputState.MAINMENU
         }
 
         chooseMenu = subMenuList[inputNumber - 1]
-        MainController.inputState = InputState.SHOPPING
+        return InputState.SHOPPING
     }
 }

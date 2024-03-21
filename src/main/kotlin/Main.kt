@@ -1,5 +1,8 @@
 package org.example
 
+import org.example.configData.DECIMAL_PRECISION_FACTOR
+import org.example.configData.DEFAULT_MONEY
+import org.example.configData.MAX_RANDOM_MONEY
 import org.example.controller.MainController
 import org.example.model.data.UserBalance
 import org.example.view.OutputView
@@ -7,24 +10,24 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
+    var inputState = InputState.MAINMENU
     val mainController = MainController()
+
     OutputView.printInputInfo()
 
+    val randomMoney = Random.nextDouble(MAX_RANDOM_MONEY * DECIMAL_PRECISION_FACTOR)
     val userBalance = UserBalance(
-        Random.nextDouble(200.0).roundToInt() / 10.0 + 10
+        randomMoney.roundToInt() / DECIMAL_PRECISION_FACTOR + DEFAULT_MONEY
     )
     println("현재 잔액: $userBalance")
 
-    while (MainController.inputState != InputState.DONE) {
+    while (inputState != InputState.DONE) {
         try {
-            mainController.run(userBalance)
-        } catch (e: Exception) {
-            when (e) {
-                is NumberFormatException, is IllegalStateException -> {
-                    OutputView.printErrorMessage(e)
-                }
-            }
+            inputState = mainController.run(inputState, userBalance)
+        } catch (e: NumberFormatException) {
+            OutputView.printErrorMessage(e)
+        } catch (e: IllegalStateException) {
+            OutputView.printErrorMessage(e)
         }
     }
 }
-

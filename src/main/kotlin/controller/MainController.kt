@@ -12,38 +12,41 @@ import kotlin.math.roundToInt
 
 class MainController() {
     private val userSelectNumbers = UserSelectNumbers()
+
     private var isEnableShoppingBasket = false
     private val shoppingBasket = ShoppingBasketData()
-    private val orderList = mutableListOf<OrderData>()
+
+    private val orderDataList = mutableListOf<OrderData>()
 
     private val mainMenuController = MainMenuController(userSelectNumbers)
     private val subMenuController = SubMenuController(userSelectNumbers)
     private val shoppingController = ShoppingController(userSelectNumbers, shoppingBasket)
 
-    fun run(balance: UserBalance) {
-        when (inputState) {
-            InputState.MAINMENU -> {
-                mainMenuController.run(isEnableShoppingBasket)
-            }
-
+    fun run(inputState: InputState, balance: UserBalance): InputState {
+        return when (inputState) {
+            InputState.MAINMENU -> mainMenuController.run(isEnableShoppingBasket)
             InputState.SUBMENU -> subMenuController.run()
+
             InputState.SHOPPING -> {
                 isEnableShoppingBasket = true
                 shoppingController.run(subMenuController.chooseMenu)
             }
 
+            // TODO: OrderController로 빼기
             InputState.ORDER -> {
                 when (userSelectNumbers.mainNumber) {
                     5 -> runOrder(balance)
                     6 -> cancleOrder()
                 }
-                inputState = InputState.MAINMENU
+
+                InputState.MAINMENU
             }
 
-            InputState.DONE -> return
+            InputState.DONE -> InputState.DONE
         }
     }
 
+    // TODO: OrderController로 빼기
     fun runOrder(balance: UserBalance) {
         if (shoppingBasket.getItemInfo().size == 0) {
             println("[no shopping] 장바구니가 비어있어요!")
@@ -59,7 +62,8 @@ class MainController() {
 
         val totalPrice = shoppingBasket.getTotalPrice()
         if (balance.money < totalPrice) {
-            println("현재 잔액은 ${balance}로 ${cutDecimal(balance.money - totalPrice) * -1}\$가 부족해서 주문할 수 없습니다.")
+            val scarceBalance = cutDecimal(balance.money - totalPrice) * -1
+            println("현재 잔액은 ${balance}로 ${scarceBalance}\$가 부족해서 주문할 수 없습니다.")
             return
         }
 
@@ -67,12 +71,12 @@ class MainController() {
         println("결제 후, 남은 잔액은 ${balance.money}\$입니다.")
 
         val orderObject = OrderData(
-            orderList.size + 1,
+            orderDataList.size + 1,
             // cloneable 상속받도록 하고 copy관련 메서드 오버라이딩 해봤지만, DeepCopy 실패
             shoppingBasket.getItem().toList().toMutableList(), // DeepCopy 해야함.
             false
         )
-        orderList.add(orderObject)
+        orderDataList.add(orderObject)
 
         shoppingBasket.resetItems()
 
@@ -95,8 +99,6 @@ class MainController() {
     }
 
     companion object {
-        var inputState = InputState.MAINMENU
-
         fun cutDecimal(number: Double): Double {
             return (DECIMAL_PRECISION_FACTOR * (number).roundToInt()) / DECIMAL_PRECISION_FACTOR
         }
