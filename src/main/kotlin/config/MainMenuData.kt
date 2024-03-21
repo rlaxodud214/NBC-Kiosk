@@ -3,7 +3,7 @@ package org.example.config
 import org.example.model.menu.MainMenu
 import org.example.model.menu.OrderMenu
 
-class MainManuData {
+class MainMenuData {
     val mainMenuList = listOf(
         MainMenu(1, "Burgers", "앵거스 비프 통살을 다져만든 버거"),
         MainMenu(2, "Pizza", "신선한 토핑이 올라간 피자"),

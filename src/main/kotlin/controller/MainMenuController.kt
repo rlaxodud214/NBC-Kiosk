@@ -1,7 +1,7 @@
 package org.example.controller
 
 import org.example.InputState
-import org.example.config.MainManuData
+import org.example.config.MainMenuData
 import org.example.model.UserSelectNumbers
 import org.example.view.InputView
 import org.example.view.OutputView
@@ -9,7 +9,7 @@ import org.example.view.OutputView
 class MainMenuController(
     val userSelectNumbers: UserSelectNumbers,
 ) {
-    private val mainMenuData = MainManuData()
+    private val mainMenuData = MainMenuData()
 
     fun run(isEnableShoppingBasket: Boolean) {
         printPrompt(isEnableShoppingBasket)
