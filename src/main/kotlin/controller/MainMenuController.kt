@@ -11,11 +11,12 @@ class MainMenuController(
     val inputView: InputView,
     val outputView: OutputView,
     val userSelectNumbers: UserSelectNumbers,
+    val shoppingBasket: ShoppingBasket,
 ) {
     private val mainMenuData = MainManuData()
 
     fun runMain() {
-        val isEnableShoppingBasket = ShoppingBasket.isEnableShopping()
+        val isEnableShoppingBasket = shoppingBasket.isEnableShopping()
 
         // TODO: (Fix)결제 후, 장바구니 목록이 초기화 되니까 MainMenu에서 OrderMenu 출력이 되지 않음
         // val isEnableOrder = orderData 객체가 여기 없음 -> 또 파라미터로 가져와야 하나,,,

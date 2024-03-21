@@ -19,15 +19,15 @@ class OutputView {
         post?.let { print(post) }.also { println() }
     }
 
-    fun printOrderInfo() {
+    fun printOrderInfo(shoppingBasket: ShoppingBasket) {
         println("아래와 같이 주문 하시겠습니까?\n")
 
         println("[ Orders ]")
-        ShoppingBasket.getItemInfo().forEach {
+        shoppingBasket.getItemInfo().forEach {
             println(it.substring(3))
         }
 
         println("\n[ Total Price ]")
-        println("${ShoppingBasket.getTotalPrice()}$\n")
+        println("${shoppingBasket.getTotalPrice()}$\n")
     }
 }

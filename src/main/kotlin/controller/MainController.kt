@@ -16,8 +16,10 @@ class MainController(
 ) {
     private var isEnableShoppingBasket = false
     private val orderList = mutableListOf<OrderData>()
+    private val shoppingBasket = ShoppingBasket()
 
-    private val mainMenuController = MainMenuController(inputView, outputView, userSelectNumbers)
+    // TODO: companion object를 제거하다보니 생성자 파라미터 개수가 너무 많아졌다. 어떻게 줄일 수 있을까,,,
+    private val mainMenuController = MainMenuController(inputView, outputView, userSelectNumbers, shoppingBasket)
     private val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
 
     fun run(balance: Balance) {
@@ -34,7 +36,7 @@ class MainController(
 
                 if (inputNumber == 1) {
                     isEnableShoppingBasket = true
-                    ShoppingBasket.addItem(item)
+                    shoppingBasket.addItem(item)
                     println("${item.name}가 장바구니에 추가되었습니다.\n")
 
                     inputState = InputState.MAINMENU
@@ -59,12 +61,12 @@ class MainController(
     }
 
     fun runOrder(balance: Balance) {
-        if (ShoppingBasket.getItemInfo().size == 0) {
+        if (shoppingBasket.getItemInfo().size == 0) {
             println("[no shopping] 장바구니가 비어있어요!")
             return
         }
 
-        outputView.printOrderInfo()
+        outputView.printOrderInfo(shoppingBasket)
         val inputNumber = inputView.inputMenuNumber("1. order      2. back")
 
         if (inputNumber != 1) {
@@ -72,7 +74,7 @@ class MainController(
         }
 
         // 현재 잔액 판단 -> 잔액 부족 문구 출력
-        val totalPrice = ShoppingBasket.getTotalPrice()
+        val totalPrice = shoppingBasket.getTotalPrice()
         if (balance.money < totalPrice) {
             println("현재 잔액은 ${balance}로 ${cutDecimal(balance.money - totalPrice) * -1}\$가 부족해서 주문할 수 없습니다.")
             return
@@ -85,13 +87,13 @@ class MainController(
         // 주문 데이터를 백업한다. 아래 cancleOrder에서 써야함
         val orderObject = OrderData(
             orderList.size + 1,
-            ShoppingBasket.items.toList().toMutableList(),
+            shoppingBasket.getItem().toList().toMutableList(), // DeepCopy 해야함.
             false
         )
         orderList.add(orderObject)
 
         // 장바구니를 초기화 한다.
-        ShoppingBasket.resetItems()
+        shoppingBasket.resetItems()
 
         println("[ OrderList ]")
         println(orderObject)
