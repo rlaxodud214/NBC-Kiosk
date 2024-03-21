@@ -1,4 +1,4 @@
-package com.example.kiosk.view
+package org.example.view
 
 class InputView {
     fun inputMenuNumber(prompt: String): Int {

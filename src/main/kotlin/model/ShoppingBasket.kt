@@ -1,8 +1,11 @@
-package com.example.kiosk.model
+package org.example.model
 
-import com.example.kiosk.model.menu.SubMenu
+import org.example.model.menu.SubMenu
 
-class ShoppingBasket {
+// 기존에 ShoppingBasket은 class였고, 객체를 companion object에 두고 사용함
+// companion object를 없애자고, object로 만들어버림 아무것도 해결되지 않았다,,
+// TODO: 다시 클래스로 변경하고, 메인 컨트롤러에서 객체 생성 후 전역 접근 안되도록 수정할 것
+object ShoppingBasket {
     // 장바구니 데이터용 List 변수를 만든다.
     var items: MutableList<SubMenu> = mutableListOf()
 
@@ -25,4 +28,7 @@ class ShoppingBasket {
     fun resetItems() {
         items.clear()
     }
+
+    // 장바구니 옵션 활성화 유무
+    fun isEnableShopping() = items.isNotEmpty()
 }

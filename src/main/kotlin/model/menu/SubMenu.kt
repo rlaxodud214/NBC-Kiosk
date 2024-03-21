@@ -1,4 +1,4 @@
-package com.example.kiosk.model.menu
+package org.example.model.menu
 
 class SubMenu(
     override val number: Int,

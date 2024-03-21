@@ -1,41 +1,39 @@
-package com.example.kiosk.controller
+package org.example.controller
 
-import com.example.kiosk.InputState
-import com.example.kiosk.controller.MainController.Companion.isEnableShoppingBasket
-import com.example.kiosk.controller.MainController.Companion.userSelectNumbers
-import com.example.kiosk.model.menu.MainMenu
-import com.example.kiosk.model.menu.OrderMenu
-import com.example.kiosk.view.InputView
-import com.example.kiosk.view.OutputView
+import org.example.InputState
+import org.example.config.MainManuData
+import org.example.model.ShoppingBasket
+import org.example.model.UserSelectNumbers
+import org.example.view.InputView
+import org.example.view.OutputView
 
 class MainMenuController(
     val inputView: InputView,
     val outputView: OutputView,
+    val userSelectNumbers: UserSelectNumbers,
 ) {
-    // TODO: Data class로 처리하기?
-    private val mainMenuList = listOf(
-        MainMenu(1, "Burgers", "앵거스 비프 통살을 다져만든 버거"),
-        MainMenu(2, "Pizza", "신선한 토핑이 올라간 피자"),
-        MainMenu(3, "Drinks", "매장에서 직접 만드는 음료"),
-        MainMenu(4, "Beer", "뉴욕 브루클린 브루어리에서 양조한 맥주"),
-    )
-
-    private val orderList = listOf(
-        OrderMenu(5, "OrderMenu", "장바구니를 확인 후 주문합니다."),
-        OrderMenu(6, "Cancel", "진행중인 주문을 취소합니다.")
-    )
+    private val mainMenuData = MainManuData()
 
     fun runMain() {
-        outputView.printMenuList("SHAKESHACK", mainMenuList, "0. Exit            |  프로그램 종료")
+        val isEnableShoppingBasket = ShoppingBasket.isEnableShopping()
+
+        // TODO: (Fix)결제 후, 장바구니 목록이 초기화 되니까 MainMenu에서 OrderMenu 출력이 되지 않음
+        // val isEnableOrder = orderData 객체가 여기 없음 -> 또 파라미터로 가져와야 하나,,,
+
+        outputView.printMenuList("SHAKESHACK", mainMenuData.mainMenuList, "0. Exit            |  프로그램 종료")
         if (isEnableShoppingBasket == true) {
-            outputView.printMenuList("OrderMenu", orderList)
+            outputView.printMenuList("OrderMenu", mainMenuData.orderList)
         }
 
         userSelectNumbers.run {
             mainNumber = inputView.inputMenuNumber("Main 메뉴를 선택해주세요")
 
             val validateLength =
-                if (isEnableShoppingBasket) mainMenuList.size + orderList.size else mainMenuList.size
+                if (isEnableShoppingBasket) {
+                    mainMenuData.mainMenuList.size + mainMenuData.orderList.size
+                } else {
+                    mainMenuData.mainMenuList.size
+                }
             validateInRange(mainNumber, validateLength)
         }
 

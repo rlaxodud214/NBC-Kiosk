@@ -1,4 +1,4 @@
-package com.example.kiosk.model
+package org.example.model
 
 class UserSelectNumbers(
     var mainNumber: Int = Int.MIN_VALUE,

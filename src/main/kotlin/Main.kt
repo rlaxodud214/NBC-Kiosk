@@ -1,19 +1,20 @@
 package org.example
 
-import com.example.kiosk.InputState
-import com.example.kiosk.controller.MainController
-import com.example.kiosk.controller.MainController.Companion.userSelectNumbers
-import com.example.kiosk.model.Balance
-import com.example.kiosk.view.InputView
-import com.example.kiosk.view.OutputView
+import org.example.controller.MainController
+import org.example.model.Balance
+import org.example.model.UserSelectNumbers
+import org.example.view.InputView
+import org.example.view.OutputView
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
     val inputView = InputView()
     val outputView = OutputView()
-    val mainController = MainController(inputView, outputView)
 
+    var userSelectNumbers = UserSelectNumbers()
+
+    val mainController = MainController(inputView, outputView, userSelectNumbers)
     outputView.printInputInfo()
 
     val userBalance = Balance(
@@ -26,7 +27,7 @@ fun main() {
             mainController.run(userBalance)
         } catch (e: NumberFormatException) {
             printErrorMessage(e)
-            initState()
+            initState(userSelectNumbers)
         } catch (e: IllegalStateException) {
             printErrorMessage(e)
         }
@@ -38,7 +39,7 @@ fun printErrorMessage(e: Exception) {
     println("$errorMessage \n")
 }
 
-fun initState() {
+fun initState(userSelectNumbers: UserSelectNumbers) {
     when (MainController.inputState) {
         InputState.SUBMENU -> userSelectNumbers.subNumber = Int.MIN_VALUE
         else -> {}

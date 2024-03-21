@@ -1,7 +1,6 @@
-package com.example.kiosk.model
+package org.example.model
 
-import com.example.kiosk.controller.MainController
-import com.example.kiosk.model.menu.SubMenu
+import org.example.model.menu.SubMenu
 
 // 주문 데이터용 data class를 만든다.
 data class OrderData(
@@ -26,4 +25,6 @@ data class OrderData(
 
         return sb.toString()
     }
+
+    fun isEnableOrder() = items.isNotEmpty()
 }

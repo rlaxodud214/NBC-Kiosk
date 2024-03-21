@@ -1,7 +1,7 @@
-package com.example.kiosk.view
+package org.example.view
 
-import com.example.kiosk.controller.MainController.Companion.shoppingBasket
-import com.example.kiosk.model.menu.Menu
+import org.example.model.ShoppingBasket
+import org.example.model.menu.Menu
 
 class OutputView {
     fun printInputInfo() {
@@ -23,11 +23,11 @@ class OutputView {
         println("아래와 같이 주문 하시겠습니까?\n")
 
         println("[ Orders ]")
-        shoppingBasket.getItemInfo().forEach {
+        ShoppingBasket.getItemInfo().forEach {
             println(it.substring(3))
         }
 
         println("\n[ Total Price ]")
-        println("${shoppingBasket.getTotalPrice()}$\n")
+        println("${ShoppingBasket.getTotalPrice()}$\n")
     }
 }

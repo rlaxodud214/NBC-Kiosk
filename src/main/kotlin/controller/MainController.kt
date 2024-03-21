@@ -1,20 +1,24 @@
-package com.example.kiosk.controller
+package org.example.controller
 
-import com.example.kiosk.InputState
-import com.example.kiosk.model.Balance
-import com.example.kiosk.model.OrderData
-import com.example.kiosk.model.ShoppingBasket
-import com.example.kiosk.model.UserSelectNumbers
-import com.example.kiosk.view.InputView
-import com.example.kiosk.view.OutputView
+import org.example.InputState
+import org.example.model.Balance
+import org.example.model.OrderData
+import org.example.model.ShoppingBasket
+import org.example.model.UserSelectNumbers
+import org.example.view.InputView
+import org.example.view.OutputView
 import kotlin.math.roundToInt
 
 class MainController(
     val inputView: InputView,
     val outputView: OutputView,
+    val userSelectNumbers: UserSelectNumbers
 ) {
-    val mainMenuController = MainMenuController(inputView, outputView)
-    val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
+    private var isEnableShoppingBasket = false
+    private val orderList = mutableListOf<OrderData>()
+
+    private val mainMenuController = MainMenuController(inputView, outputView, userSelectNumbers)
+    private val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
 
     fun run(balance: Balance) {
         when (inputState) {
@@ -30,7 +34,7 @@ class MainController(
 
                 if (inputNumber == 1) {
                     isEnableShoppingBasket = true
-                    shoppingBasket.addItem(item)
+                    ShoppingBasket.addItem(item)
                     println("${item.name}가 장바구니에 추가되었습니다.\n")
 
                     inputState = InputState.MAINMENU
@@ -55,7 +59,7 @@ class MainController(
     }
 
     fun runOrder(balance: Balance) {
-        if (shoppingBasket.getItemInfo().size == 0) {
+        if (ShoppingBasket.getItemInfo().size == 0) {
             println("[no shopping] 장바구니가 비어있어요!")
             return
         }
@@ -68,7 +72,7 @@ class MainController(
         }
 
         // 현재 잔액 판단 -> 잔액 부족 문구 출력
-        val totalPrice = shoppingBasket.getTotalPrice()
+        val totalPrice = ShoppingBasket.getTotalPrice()
         if (balance.money < totalPrice) {
             println("현재 잔액은 ${balance}로 ${cutDecimal(balance.money - totalPrice) * -1}\$가 부족해서 주문할 수 없습니다.")
             return
@@ -81,13 +85,13 @@ class MainController(
         // 주문 데이터를 백업한다. 아래 cancleOrder에서 써야함
         val orderObject = OrderData(
             orderList.size + 1,
-            shoppingBasket.items.toList().toMutableList(),
+            ShoppingBasket.items.toList().toMutableList(),
             false
         )
         orderList.add(orderObject)
 
         // 장바구니를 초기화 한다.
-        shoppingBasket.resetItems()
+        ShoppingBasket.resetItems()
 
         println("[ OrderList ]")
         println(orderObject)
@@ -109,12 +113,6 @@ class MainController(
 
     companion object {
         var inputState = InputState.MAINMENU
-
-        var userSelectNumbers = UserSelectNumbers()
-        var isEnableShoppingBasket = false
-
-        val shoppingBasket = ShoppingBasket()
-        val orderList = mutableListOf<OrderData>()
 
         fun cutDecimal(number: Double): Double {
             return (10 * (number).roundToInt()) / 10.0

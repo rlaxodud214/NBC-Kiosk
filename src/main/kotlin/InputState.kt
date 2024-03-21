@@ -1,4 +1,4 @@
-package com.example.kiosk
+package org.example
 
 object inputStateValue {
     var inputState = InputState.MAINMENU
