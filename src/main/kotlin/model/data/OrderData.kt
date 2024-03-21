@@ -1,4 +1,4 @@
-package org.example.model
+package org.example.model.data
 
 import org.example.model.menu.SubMenu
 
@@ -6,7 +6,6 @@ import org.example.model.menu.SubMenu
 data class OrderData(
     val orderNumber: Int = Int.MIN_VALUE,
     val items: MutableList<SubMenu> = mutableListOf(),
-    // val로 하고 copyOf를 쓰는 게 정석인가?!
     var isCancel: Boolean = false
 ) {
     override fun toString(): String {
@@ -25,6 +24,4 @@ data class OrderData(
 
         return sb.toString()
     }
-
-    fun isEnableOrder() = items.isNotEmpty()
 }

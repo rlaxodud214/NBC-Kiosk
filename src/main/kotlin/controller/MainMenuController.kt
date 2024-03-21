@@ -2,6 +2,7 @@ package org.example.controller
 
 import org.example.InputState
 import org.example.config.MainMenuData
+import org.example.configData.BACK_OR_EXIT_NUMBER
 import org.example.model.UserSelectNumbers
 import org.example.view.InputView
 import org.example.view.OutputView
@@ -19,23 +20,31 @@ class MainMenuController(
     }
 
     private fun printPrompt(isEnableShoppingBasket: Boolean) {
-        OutputView.printMenuList("SHAKESHACK", mainMenuData.mainMenuList, "0. Exit            |  프로그램 종료")
+        OutputView.printMenuList(
+            title = "SHAKESHACK",
+            menuList = mainMenuData.mainMenuList,
+            post = "${BACK_OR_EXIT_NUMBER}. Exit            |  프로그램 종료"
+        )
 
         if (isEnableShoppingBasket == true) {
-            OutputView.printMenuList("OrderMenu", mainMenuData.orderList)
+            OutputView.printMenuList(
+                title = "OrderMenu",
+                menuList = mainMenuData.orderList
+            )
         }
     }
 
     private fun inputNumberValidate(isEnableShoppingBasket: Boolean): Int {
         val inputNumber = InputView.inputMenuNumber("Main 메뉴를 선택해주세요")
 
-        var validateLength = mainMenuData.mainMenuList.size
+        var allowMaxNumber = mainMenuData.mainMenuList.size
         if (isEnableShoppingBasket == true) {
-            validateLength += mainMenuData.orderList.size
+            allowMaxNumber += mainMenuData.orderList.size
         }
 
+        val allowedRange = BACK_OR_EXIT_NUMBER..allowMaxNumber
         userSelectNumbers.run {
-            validateInRange(inputNumber, validateLength)
+            validateInRange(inputNumber, allowedRange)
             mainNumber = inputNumber
         }
 
@@ -49,7 +58,7 @@ class MainMenuController(
         }
         MainController.inputState = InputState.SUBMENU
 
-        if (inputNumber == 0) {
+        if (inputNumber == BACK_OR_EXIT_NUMBER) {
             MainController.inputState = InputState.DONE
             println("exit complete")
         }

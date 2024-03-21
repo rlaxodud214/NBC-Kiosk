@@ -2,6 +2,7 @@ package org.example.controller
 
 import org.example.InputState
 import org.example.config.SubMenuData
+import org.example.configData.BACK_OR_EXIT_NUMBER
 import org.example.model.UserSelectNumbers
 import org.example.model.menu.SubMenu
 import org.example.view.InputView
@@ -26,22 +27,23 @@ class SubMenuController(
 
     private fun printPrompt() {
         OutputView.printMenuList(
-            subMenuData.menuPromptList[userSelectNumber.mainNumber],
-            subMenuList,
-            "0. Back          | 뒤로가기\n"
+            title = subMenuData.menuPromptList[userSelectNumber.mainNumber],
+            menuList = subMenuList,
+            post = "${BACK_OR_EXIT_NUMBER}. Back          | 뒤로가기\n"
         )
     }
 
     private fun inputNumberValidate(): Int {
         val inputNumber = InputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
 
-        userSelectNumber.validateInRange(inputNumber, subMenuList.size)
+        val allowedRange = BACK_OR_EXIT_NUMBER..subMenuList.size
+        userSelectNumber.validateInRange(inputNumber, allowedRange)
 
         return inputNumber
     }
 
     private fun nextInputState(inputNumber: Int) {
-        if (inputNumber == 0) {
+        if (inputNumber == BACK_OR_EXIT_NUMBER) {
             MainController.inputState = InputState.MAINMENU
             println("back complete\n")
             return
