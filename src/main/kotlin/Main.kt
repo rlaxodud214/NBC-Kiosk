@@ -9,9 +9,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
-    var userSelectNumbers = UserSelectNumbers()
-
-    val mainController = MainController(userSelectNumbers)
+    val mainController = MainController()
     OutputView.printInputInfo()
 
     val userBalance = Balance(
@@ -22,10 +20,8 @@ fun main() {
     while (MainController.inputState != InputState.DONE) {
         try {
             mainController.run(userBalance)
-
         } catch (e: NumberFormatException) {
             printErrorMessage(e)
-            initState(userSelectNumbers)
         } catch (e: IllegalStateException) {
             printErrorMessage(e)
         }
@@ -35,11 +31,4 @@ fun main() {
 fun printErrorMessage(e: Exception) {
     val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
     println("$errorMessage \n")
-}
-
-fun initState(userSelectNumbers: UserSelectNumbers) {
-    when (MainController.inputState) {
-        InputState.SUBMENU -> userSelectNumbers.subNumber = Int.MIN_VALUE
-        else -> {}
-    }
 }

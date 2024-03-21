@@ -10,33 +10,44 @@ import org.example.view.OutputView
 class SubMenuController(
     val userSelectNumber: UserSelectNumbers,
 ) {
-    lateinit var subMenuList: List<SubMenu>
+    val subMenuList: List<SubMenu> by lazy {
+        subMenuData.subMenuList[userSelectNumber.mainNumber - 1]
+    }
+
     lateinit var chooseMenu: SubMenu
     private val subMenuData = SubMenuData()
 
-    fun runSub() {
-        subMenuList = subMenuData.subMenuList[userSelectNumber.mainNumber - 1]
+    fun run() {
+        printPrompt()
+        val inputNumber = inputNumberValidate()
 
+        nextInputState(inputNumber)
+    }
+
+    private fun printPrompt() {
         OutputView.printMenuList(
             subMenuData.menuPromptList[userSelectNumber.mainNumber],
             subMenuList,
             "0. Back          | 뒤로가기\n"
         )
-
-        userSelectNumber.run {
-            subNumber = InputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
-            validateInRange(subNumber, subMenuList.size)
-            if (subNumber == 0) {
-                back()
-            } else {
-                chooseMenu = subMenuList[subNumber - 1]
-                MainController.inputState = InputState.SHOPPING
-            }
-        }
     }
 
-    private fun back() {
-        MainController.inputState = InputState.MAINMENU
-        println("back complete\n")
+    private fun inputNumberValidate(): Int {
+        val inputNumber = InputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
+
+        userSelectNumber.validateInRange(inputNumber, subMenuList.size)
+
+        return inputNumber
+    }
+
+    private fun nextInputState(inputNumber: Int) {
+        if (inputNumber == 0) {
+            MainController.inputState = InputState.MAINMENU
+            println("back complete\n")
+            return
+        }
+
+        chooseMenu = subMenuList[inputNumber - 1]
+        MainController.inputState = InputState.SHOPPING
     }
 }

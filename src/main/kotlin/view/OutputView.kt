@@ -2,6 +2,7 @@ package org.example.view
 
 import org.example.model.ShoppingBasket
 import org.example.model.menu.Menu
+import org.example.model.menu.SubMenu
 
 object OutputView {
     fun printInputInfo() {
@@ -17,6 +18,10 @@ object OutputView {
         }
 
         post?.let { print(post) }.also { println() }
+    }
+
+    fun printMenu(selectedMenu: SubMenu) {
+        println(selectedMenu.displayInfo().substring(3))
     }
 
     fun printOrderInfo(shoppingBasket: ShoppingBasket) {

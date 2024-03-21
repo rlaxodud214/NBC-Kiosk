@@ -11,14 +11,11 @@ class MainMenuController(
 ) {
     private val mainMenuData = MainManuData()
 
-    fun runMain(isEnableShoppingBasket: Boolean) {
+    fun run(isEnableShoppingBasket: Boolean) {
         printPrompt(isEnableShoppingBasket)
+        val inputNumber = inputNumberValidate(isEnableShoppingBasket)
 
-        inputValidate(isEnableShoppingBasket)
-
-        nextInputState()
-
-        isExit(userSelectNumbers.mainNumber)
+        nextInputState(inputNumber)
     }
 
     private fun printPrompt(isEnableShoppingBasket: Boolean) {
@@ -29,30 +26,29 @@ class MainMenuController(
         }
     }
 
-    private fun inputValidate(isEnableShoppingBasket: Boolean) {
+    private fun inputNumberValidate(isEnableShoppingBasket: Boolean): Int {
+        val inputNumber = InputView.inputMenuNumber("Main 메뉴를 선택해주세요")
+
+        var validateLength = mainMenuData.mainMenuList.size
+        if (isEnableShoppingBasket == true) {
+            validateLength += mainMenuData.orderList.size
+        }
+
         userSelectNumbers.run {
-            mainNumber = InputView.inputMenuNumber("Main 메뉴를 선택해주세요")
-
-            val validateLength =
-                if (isEnableShoppingBasket) {
-                    mainMenuData.mainMenuList.size + mainMenuData.orderList.size
-                } else {
-                    mainMenuData.mainMenuList.size
-                }
-
-            validateInRange(mainNumber, validateLength)
+            validateInRange(inputNumber, validateLength)
+            mainNumber = inputNumber
         }
+
+        return inputNumber
     }
 
-    private fun nextInputState() {
-        if (userSelectNumbers.mainNumber in 5..6) {
+    private fun nextInputState(inputNumber: Int) {
+        if (inputNumber in 5..6) {
             MainController.inputState = InputState.ORDER
-        } else {
-            MainController.inputState = InputState.SUBMENU
+            return
         }
-    }
+        MainController.inputState = InputState.SUBMENU
 
-    private fun isExit(inputNumber: Int) {
         if (inputNumber == 0) {
             MainController.inputState = InputState.DONE
             println("exit complete")

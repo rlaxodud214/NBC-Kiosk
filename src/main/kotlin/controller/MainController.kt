@@ -9,9 +9,8 @@ import org.example.view.InputView
 import org.example.view.OutputView
 import kotlin.math.roundToInt
 
-class MainController(
-    val userSelectNumbers: UserSelectNumbers
-) {
+class MainController() {
+    private val userSelectNumbers = UserSelectNumbers()
     private var isEnableShoppingBasket = false
     private val shoppingBasket = ShoppingBasket()
     private val orderList = mutableListOf<OrderData>()
@@ -22,12 +21,16 @@ class MainController(
 
     fun run(balance: Balance) {
         when (inputState) {
-            InputState.MAINMENU -> mainMenuController.runMain(isEnableShoppingBasket)
-            InputState.SUBMENU -> subMenuController.runSub()
-            InputState.SHOPPING -> shoppingController.runShopping(subMenuController.chooseMenu)
+            InputState.MAINMENU -> {
+                mainMenuController.run(isEnableShoppingBasket)
+            }
+            InputState.SUBMENU -> subMenuController.run()
+            InputState.SHOPPING -> {
+                isEnableShoppingBasket = true
+                shoppingController.run(subMenuController.chooseMenu)
+            }
 
             InputState.ORDER -> {
-                isEnableShoppingBasket = true
                 when (userSelectNumbers.mainNumber) {
                     5 -> runOrder(balance)
                     6 -> cancleOrder()

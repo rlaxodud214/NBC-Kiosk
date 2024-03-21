@@ -2,7 +2,6 @@ package org.example.model
 
 class UserSelectNumbers(
     var mainNumber: Int = Int.MIN_VALUE,
-    var subNumber: Int = Int.MIN_VALUE,
 ) {
     fun validateInRange(number: Int, length: Int) {
         require(number in IntRange(0, length)) {
