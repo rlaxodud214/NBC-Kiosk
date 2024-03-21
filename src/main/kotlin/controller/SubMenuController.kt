@@ -8,8 +8,6 @@ import org.example.view.InputView
 import org.example.view.OutputView
 
 class SubMenuController(
-    val inputView: InputView,
-    val outputView: OutputView,
     val userSelectNumber: UserSelectNumbers,
 ) {
     lateinit var subMenuList: List<SubMenu>
@@ -19,14 +17,14 @@ class SubMenuController(
     fun runSub() {
         subMenuList = subMenuData.subMenuList[userSelectNumber.mainNumber - 1]
 
-        outputView.printMenuList(
+        OutputView.printMenuList(
             subMenuData.menuPromptList[userSelectNumber.mainNumber],
             subMenuList,
             "0. Back          | 뒤로가기\n"
         )
 
         userSelectNumber.run {
-            subNumber = inputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
+            subNumber = InputView.inputMenuNumber("Sub 메뉴를 선택해주세요")
             validateInRange(subNumber, subMenuList.size)
             if (subNumber == 0) {
                 back()

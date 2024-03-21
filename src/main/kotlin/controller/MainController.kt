@@ -10,45 +10,24 @@ import org.example.view.OutputView
 import kotlin.math.roundToInt
 
 class MainController(
-    val inputView: InputView,
-    val outputView: OutputView,
     val userSelectNumbers: UserSelectNumbers
 ) {
     private var isEnableShoppingBasket = false
-    private val orderList = mutableListOf<OrderData>()
     private val shoppingBasket = ShoppingBasket()
+    private val orderList = mutableListOf<OrderData>()
 
-    // TODO: companion object를 제거하다보니 생성자 파라미터 개수가 너무 많아졌다. 어떻게 줄일 수 있을까,,,
-    private val mainMenuController = MainMenuController(inputView, outputView, userSelectNumbers, shoppingBasket)
-    private val subMenuController = SubMenuController(inputView, outputView, userSelectNumbers)
+    private val mainMenuController = MainMenuController(userSelectNumbers)
+    private val subMenuController = SubMenuController(userSelectNumbers)
+    private val shoppingController = ShoppingController(shoppingBasket)
 
     fun run(balance: Balance) {
         when (inputState) {
-            // main과 sub를 하나의 MenuController로 다루는 게 맞을까?
-            InputState.MAINMENU -> mainMenuController.runMain()
+            InputState.MAINMENU -> mainMenuController.runMain(isEnableShoppingBasket)
             InputState.SUBMENU -> subMenuController.runSub()
-
-            InputState.SHOPPING -> {
-                val item = subMenuController.chooseMenu
-
-                println(item.displayInfo().substring(3))
-                val inputNumber = inputView.inputMenuNumber("위 메뉴를 장바구니에 추가하시겠습니까? [1] 확인, [2] 취소")
-
-                if (inputNumber == 1) {
-                    isEnableShoppingBasket = true
-                    shoppingBasket.addItem(item)
-                    println("${item.name}가 장바구니에 추가되었습니다.\n")
-
-                    inputState = InputState.MAINMENU
-                    outputView.printInputInfo()
-                }
-
-                if (inputNumber == 2) {
-                    inputState = InputState.SUBMENU
-                }
-            }
+            InputState.SHOPPING -> shoppingController.runShopping(subMenuController.chooseMenu)
 
             InputState.ORDER -> {
+                isEnableShoppingBasket = true
                 when (userSelectNumbers.mainNumber) {
                     5 -> runOrder(balance)
                     6 -> cancleOrder()
@@ -66,8 +45,8 @@ class MainController(
             return
         }
 
-        outputView.printOrderInfo(shoppingBasket)
-        val inputNumber = inputView.inputMenuNumber("1. order      2. back")
+        OutputView.printOrderInfo(shoppingBasket)
+        val inputNumber = InputView.inputMenuNumber("1. order      2. back")
 
         if (inputNumber != 1) {
             return

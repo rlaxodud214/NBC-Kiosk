@@ -9,13 +9,10 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
-    val inputView = InputView()
-    val outputView = OutputView()
-
     var userSelectNumbers = UserSelectNumbers()
 
-    val mainController = MainController(inputView, outputView, userSelectNumbers)
-    outputView.printInputInfo()
+    val mainController = MainController(userSelectNumbers)
+    OutputView.printInputInfo()
 
     val userBalance = Balance(
         Random.nextDouble(200.0).roundToInt() / 10.0 + 10
@@ -25,6 +22,7 @@ fun main() {
     while (MainController.inputState != InputState.DONE) {
         try {
             mainController.run(userBalance)
+
         } catch (e: NumberFormatException) {
             printErrorMessage(e)
             initState(userSelectNumbers)

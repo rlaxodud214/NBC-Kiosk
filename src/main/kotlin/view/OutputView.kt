@@ -3,7 +3,7 @@ package org.example.view
 import org.example.model.ShoppingBasket
 import org.example.model.menu.Menu
 
-class OutputView {
+object OutputView {
     fun printInputInfo() {
         println("[Hello] SHAKESHACK BURGER 에 오신걸 환영합니다.")
         println("[Info] 아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.")
