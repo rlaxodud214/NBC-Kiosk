@@ -1,4 +1,4 @@
-package com.example.kiosk.model.menu
+package org.example.model.menu
 
 // Food와 프로퍼티 형식이 같다. 상속을 받아도 되는 걸까?
 // 하지만, FoodMenu와 OrderMenu라는 의미의 차이가 있음

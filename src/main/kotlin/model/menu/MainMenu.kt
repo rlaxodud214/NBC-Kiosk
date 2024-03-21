@@ -1,4 +1,4 @@
-package com.example.kiosk.model.menu
+package org.example.model.menu
 
 open class MainMenu(
     override val number: Int,

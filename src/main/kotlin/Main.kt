@@ -1,22 +1,16 @@
 package org.example
 
-import com.example.kiosk.InputState
-import com.example.kiosk.controller.MainController
-import com.example.kiosk.controller.MainController.Companion.userSelectNumbers
-import com.example.kiosk.model.Balance
-import com.example.kiosk.view.InputView
-import com.example.kiosk.view.OutputView
+import org.example.controller.MainController
+import org.example.model.data.UserBalance
+import org.example.view.OutputView
 import kotlin.math.roundToInt
 import kotlin.random.Random
 
 fun main() {
-    val inputView = InputView()
-    val outputView = OutputView()
-    val mainController = MainController(inputView, outputView)
+    val mainController = MainController()
+    OutputView.printInputInfo()
 
-    outputView.printInputInfo()
-
-    val userBalance = Balance(
+    val userBalance = UserBalance(
         Random.nextDouble(200.0).roundToInt() / 10.0 + 10
     )
     println("현재 잔액: $userBalance")
@@ -25,16 +19,12 @@ fun main() {
         try {
             mainController.run(userBalance)
         } catch (e: Exception) {
-            val errorMessage = e.message?.let { it } ?: "[Fix] 원인 모를 오류 발생"
-            initState()
-            println("$errorMessage \n")
+            when (e) {
+                is NumberFormatException, is IllegalStateException -> {
+                    OutputView.printErrorMessage(e)
+                }
+            }
         }
     }
 }
 
-fun initState() {
-    when (MainController.inputState) {
-        InputState.SUBMENU -> userSelectNumbers.subNumber = Int.MIN_VALUE
-        else -> {}
-    }
-}
